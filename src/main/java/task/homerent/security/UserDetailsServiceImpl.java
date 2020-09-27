@@ -1,4 +1,4 @@
-package task.homerent.Security;
+package task.homerent.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

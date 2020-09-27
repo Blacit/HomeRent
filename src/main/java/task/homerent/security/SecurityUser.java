@@ -1,4 +1,4 @@
-package task.homerent.Security;
+package task.homerent.security;
 
 
 import lombok.Data;
