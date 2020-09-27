@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 public enum Role {
     TENANT(Set.of(Permission.USER_READ)),
     LANDLORD(Set.of(Permission.USER_READ, Permission.USER_WRITE)),
-    ADMIN(Set.of(Permission.USER_READ, Permission.USER_WRITE));
+    ADMIN(Set.of(Permission.USER_READ, Permission.USER_WRITE, Permission.ADMIN_WRITE));
 
     private final Set<Permission> permissions;
 

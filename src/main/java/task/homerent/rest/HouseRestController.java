@@ -22,48 +22,30 @@ public class HouseRestController {
     }
 
     // Вывести всю информацию по конкретной квартире
-    @GetMapping("/list/{id}")
+    @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('user:read')")
     public House userPostInfo(@PathVariable(value = "id") Long id) {
         Optional<House> house = houseRepository.findById(id);
         List<House> res = new ArrayList<>();
         house.ifPresent(res::add);
 
-        return res.stream().filter(developer -> developer.getId().equals(id))
+        return res.stream().filter(houses -> houses.getId().equals(id))
                 .findFirst()
                 .orElse(null);
     }
 
     // Вывести всю информацию о всех
-    @GetMapping("/list/{id}")
+    @GetMapping("/list")
     @PreAuthorize("hasAuthority('user:read')")
     public House userPostInfo() {
         List<House> res = new ArrayList<>();
-
-        return res.stream().filter(developer -> developer.getId().equals(id))
-                .findFirst()
-                .orElse(null;
-    }
-
-/*
-    @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('user:read')")
-    public Developer getById(@PathVariable Long id) {
-        return House.stream().filter(developer -> developer.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+        // Как тут вывести все квартиры из сущности House?
+        return res;
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('house:write')")
-    public Developer create(@RequestBody House house) {
-        this.House.add(developer);
-        return developer;
+    @PreAuthorize("hasAuthority('user:write')")
+    public House create(@RequestBody House house) {
+        return houseRepository.save(house);
     }
-
-    @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('developers:write')")
-    public void deleteById(@PathVariable Long id) {
-        this.House.removeIf(developer -> developer.getId().equals(id));
-    }*/
 }
