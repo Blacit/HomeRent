@@ -1,11 +1,12 @@
-package net.proselyte.springsecuritydemo.security;
+package task.homerent.Security;
+
 
 import lombok.Data;
-import net.proselyte.springsecuritydemo.model.Status;
-import net.proselyte.springsecuritydemo.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import task.homerent.model.Status;
+import task.homerent.model.User;
 
 import java.util.Collection;
 import java.util.List;

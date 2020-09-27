@@ -1,4 +1,4 @@
-package net.proselyte.springsecuritydemo.config;
+package task.homerent.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -32,7 +32,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
+                /** На какие страницы человек имеет доступы */
                 .antMatchers("/").permitAll()
+                .antMatchers("/user/registration").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

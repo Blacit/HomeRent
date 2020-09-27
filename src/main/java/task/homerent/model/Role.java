@@ -1,4 +1,4 @@
-package net.proselyte.springsecuritydemo.model;
+package task.homerent.model;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -6,8 +6,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public enum Role {
-    USER(Set.of(Permission.DEVELOPERS_READ)),
-    ADMIN(Set.of(Permission.DEVELOPERS_READ, Permission.DEVELOPERS_WRITE));
+    TENANT(Set.of(Permission.USER_READ)),
+    LANDLORD(Set.of(Permission.USER_READ, Permission.USER_WRITE)),
+    ADMIN(Set.of(Permission.USER_READ, Permission.USER_WRITE));
 
     private final Set<Permission> permissions;
 
