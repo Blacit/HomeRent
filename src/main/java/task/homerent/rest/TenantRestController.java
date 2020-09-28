@@ -29,10 +29,8 @@ public class TenantRestController {
     @PreAuthorize("hasAuthority('landlord:write')")
     public void TenantPostAdd(@PathVariable(value = "id") Long id) {
         User user = userRepository.findById(id).orElseThrow();
-        Role role = Role.TENANT;
-        user.setRole(role);
+        user.setRole(Role.TENANT);
         House house = houseRepository.findById(id).orElseThrow();
-        Status status = Status.INACTIVELY;
-        house.setStatus(status);
+        house.setStatus(Status.INACTIVELY);
     }
 }

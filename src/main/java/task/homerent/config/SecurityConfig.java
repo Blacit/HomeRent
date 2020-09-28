@@ -33,21 +33,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 /** На какие страницы человек имеет доступы */
-                .antMatchers("/").permitAll()
-                .antMatchers("/user/registration").permitAll()
-                .anyRequest()
-                .authenticated()
+                    .antMatchers("/").permitAll()
+                    .antMatchers("/user/registration").permitAll()
+                    .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .loginPage("/auth/login").permitAll()
-                .defaultSuccessUrl("/auth/success")
+                    .formLogin()
+                    .loginPage("/auth/login").permitAll()
+                    .defaultSuccessUrl("/auth/success")
                 .and()
-                .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout", "POST"))
-                .invalidateHttpSession(true)
-                .clearAuthentication(true)
-                .deleteCookies("JSESSIONID")
-                .logoutSuccessUrl("/auth/login");
+                    .logout()
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout", "POST"))
+                    .invalidateHttpSession(true)
+                    .clearAuthentication(true)
+                    .deleteCookies("JSESSIONID")
+                    .logoutSuccessUrl("/auth/login");
     }
 
     @Override

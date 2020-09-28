@@ -7,6 +7,10 @@ import task.homerent.model.Role;
 import task.homerent.model.User;
 import task.homerent.repository.UserRepository;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/landlord")
 public class LandlordRestController {
@@ -25,5 +29,13 @@ public class LandlordRestController {
         User user = userRepository.findById(id).orElseThrow();
         Role role = Role.LANDLORD;
         user.setRole(role);
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('user:read')")
+    public User landlordGet(@PathVariable(value = "id") Long id) {
+        List<User> user = userRepository.findByRole("TENANT");
+        user.
+        return userRepository.findById(id).getL
     }
 }
