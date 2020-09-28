@@ -6,16 +6,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import task.homerent.dto.UserDto;
 import task.homerent.model.Role;
 import task.homerent.model.Status;
 import task.homerent.model.User;
 import task.homerent.repository.UserRepository;
+
+import java.util.List;
 
 @Controller
 @RequestMapping
@@ -32,6 +31,7 @@ public class RegistrationController {
         this.userRepository = userRepository;
     }
 
+    @ResponseBody
     @PostMapping("/user/registration")
     public User registerNewUserAccount(@RequestBody UserDto accountDto) {
         User user = new User();

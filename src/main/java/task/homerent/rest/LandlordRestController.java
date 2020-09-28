@@ -18,6 +18,7 @@ public class LandlordRestController {
         this.userRepository = userRepository;
     }
 
+    // TENANT становится LANDLORD
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('user:write')")
     public void landlordPostAdd(@PathVariable(value = "id") Long id) {

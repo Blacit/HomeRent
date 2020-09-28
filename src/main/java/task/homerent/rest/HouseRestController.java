@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import task.homerent.model.House;
+import task.homerent.model.Status;
 import task.homerent.repository.HouseRepository;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,18 +36,19 @@ public class HouseRestController {
                 .orElse(null);
     }
 
-    // Вывести всю информацию о всех
-    /*@GetMapping("/list")
+    // Вывести всю информацию о всех квартирах
+    @GetMapping("/list")
     @PreAuthorize("hasAuthority('user:read')")
-    public House userPostInfo() {
-        List<House> res = new ArrayList<>();
-        // Как тут вывести все квартиры из сущности House?
-        return res;
-    }*/
+    public Collection<House> userPostInfo() {
+        return houseRepository.findAll();
+    }
 
+    // Добавить квартиру
     @PostMapping
-    @PreAuthorize("hasAuthority('user:write')")
+    @PreAuthorize("hasAuthority('landlord:write')")
     public House create(@RequestBody House house) {
+        Status status = Status.ACTIVE;
+        house.setStatus(status);
         return houseRepository.save(house);
     }
 }

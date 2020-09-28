@@ -21,6 +21,7 @@ public class AdminRestController {
         this.houseRepository = houseRepository;
     }
 
+    // Удаляем пользователя по ID
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('admin:write')")
     public void deleteById(@PathVariable Long id) {
