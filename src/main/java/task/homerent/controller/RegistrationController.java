@@ -1,20 +1,12 @@
 package task.homerent.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
 import task.homerent.dto.UserDto;
-import task.homerent.model.Role;
-import task.homerent.model.Status;
-import task.homerent.model.User;
 import task.homerent.repository.UserRepository;
-
-import java.util.List;
+import task.homerent.service.UserService;
 
 @Controller
 @RequestMapping
@@ -24,27 +16,21 @@ public class RegistrationController {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
-    public RegistrationController(PasswordEncoder passwordEncoder, UserRepository userRepository) {
+    @Autowired
+    private UserService userService;
+
+    public RegistrationController(PasswordEncoder passwordEncoder, UserRepository userRepository, UserService userService) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @ResponseBody
     @PostMapping("/user/registration")
-    public User registerNewUserAccount(@RequestBody UserDto accountDto) {
-        User user = new User();
-        user.setFirstName(accountDto.getFirst_name());
-        user.setLastName(accountDto.getLast_name());
-        // Шифруем и сохраняем
-        user.setPassword(passwordEncoder.encode(accountDto.getPassword()));
-
-        user.setEmail(accountDto.getEmail());
-        Role role = Role.TENANT;
-        user.setRole(role);
-        Status status = Status.ACTIVE;
-        user.setStatus(status);
-        return userRepository.save(user);
+    public UserDto registerNewUserAccount(@RequestBody UserDto accountDto) {
+        userService.addUser(accountDto);
+        return accountDto;
     }
 }

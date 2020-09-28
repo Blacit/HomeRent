@@ -6,10 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import task.homerent.model.House;
 import task.homerent.repository.HouseRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/api/house")
 public class AdminRestController {

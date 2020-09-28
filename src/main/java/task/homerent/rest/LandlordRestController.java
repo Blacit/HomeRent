@@ -12,7 +12,7 @@ import task.homerent.repository.UserRepository;
 public class LandlordRestController {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     public LandlordRestController(UserRepository userRepository) {
         this.userRepository = userRepository;
