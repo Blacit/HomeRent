@@ -36,7 +36,7 @@ public class HouseRestController {
         Optional<House> house = houseRepository.findById(id);
         List<House> res = new ArrayList<>();
         house.ifPresent(res::add);
-        //contractRepository.findAll();
+
         return res.stream().filter(houses -> houses.getId().equals(id))
                 .findFirst()
                 .orElse(null);
