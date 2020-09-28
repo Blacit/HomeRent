@@ -35,13 +35,13 @@ public class HouseRestController {
     }
 
     // Вывести всю информацию о всех
-    @GetMapping("/list")
+    /*@GetMapping("/list")
     @PreAuthorize("hasAuthority('user:read')")
     public House userPostInfo() {
         List<House> res = new ArrayList<>();
         // Как тут вывести все квартиры из сущности House?
         return res;
-    }
+    }*/
 
     @PostMapping
     @PreAuthorize("hasAuthority('user:write')")

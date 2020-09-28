@@ -1,6 +1,7 @@
 package task.homerent.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -19,6 +20,7 @@ public class City {
     @OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
             CascadeType.REFRESH
     }, mappedBy = "city")
+    @JsonBackReference
     private Set<House> house;
 
     @Column(name = "id_region", nullable = false)

@@ -1,5 +1,6 @@
 package task.homerent.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ public class House {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "city_id")
+    @JsonManagedReference
     private City city;
 
     @OneToMany(mappedBy = "house")
