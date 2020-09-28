@@ -7,7 +7,7 @@ import task.homerent.model.House;
 import task.homerent.repository.HouseRepository;
 
 @RestController
-@RequestMapping("/api/house")
+@RequestMapping("/admin/user")
 public class AdminRestController {
 
     @Autowired

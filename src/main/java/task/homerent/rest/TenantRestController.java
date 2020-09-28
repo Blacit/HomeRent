@@ -3,10 +3,8 @@ package task.homerent.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import task.homerent.model.House;
-import task.homerent.model.Role;
-import task.homerent.model.Status;
-import task.homerent.model.User;
+import task.homerent.model.*;
+import task.homerent.repository.ContractRepository;
 import task.homerent.repository.HouseRepository;
 import task.homerent.repository.UserRepository;
 
@@ -22,11 +20,12 @@ public class TenantRestController {
     @Autowired
     private UserRepository userRepository;
 
-    public TenantRestController(HouseRepository houseRepository) {
+    public TenantRestController(HouseRepository houseRepository, UserRepository userRepository) {
         this.houseRepository = houseRepository;
+        this.userRepository = userRepository;
     }
 
-    // Присвоить пользователю TENANT и удалить его квартиры, если бы
+    // Присвоить пользователю TENANT и деактивировать квартиры, если были
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('landlord:write')")
     public void TenantPostAdd(@PathVariable(value = "id") Long id) {
