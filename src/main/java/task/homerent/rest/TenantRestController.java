@@ -10,6 +10,8 @@ import task.homerent.model.User;
 import task.homerent.repository.HouseRepository;
 import task.homerent.repository.UserRepository;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/tenant")
 public class TenantRestController {
@@ -32,5 +34,12 @@ public class TenantRestController {
         user.setRole(Role.TENANT);
         House house = houseRepository.findById(id).orElseThrow();
         house.setStatus(Status.INACTIVELY);
+    }
+
+    // Выводим весь список арендаторов
+    @GetMapping
+    @PreAuthorize("hasAuthority('user:read')")
+    public List<User> landlordGet() {
+        return userRepository.findByRole(Role.TENANT);
     }
 }
