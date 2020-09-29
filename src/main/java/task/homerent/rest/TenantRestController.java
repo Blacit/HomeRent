@@ -35,7 +35,7 @@ public class TenantRestController {
             a.setStatus(Status.ACTIVE);
             userRepository.save(user);
         }
-        return "Присвоена роль LANDLORD и активированы квартиры, если ранее были\n" + user;
+        return "Присвоена роль LANDLORD и активированы квартиры, если ранее были подключены\n" + user;
     }
 
     @GetMapping

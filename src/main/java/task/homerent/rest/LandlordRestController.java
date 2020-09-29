@@ -37,7 +37,7 @@ public class LandlordRestController {
             a.setStatus(Status.INACTIVELY);
             userRepository.save(user);
         }
-        return "присвоена роль TENANT и деактивированы квартиры\n" + user;
+        return "присвоена роль TENANT и деактивированы квартиры, если были подключены\n" + user;
     }
 
     @GetMapping
