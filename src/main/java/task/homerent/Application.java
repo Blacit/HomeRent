@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  JWT подкрутить
  Регистрацию по почте с подтверждением
-
+ Повторный ввод пароль
  */
 @SpringBootApplication
 public class Application {
