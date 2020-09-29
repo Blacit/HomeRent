@@ -2,13 +2,12 @@ package task.homerent.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import task.homerent.dto.UserDto;
 import task.homerent.repository.UserRepository;
 import task.homerent.service.UserService;
 
-@Controller
+@RestController
 @RequestMapping
 public class RegistrationController {
 

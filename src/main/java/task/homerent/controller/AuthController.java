@@ -1,20 +1,21 @@
 package task.homerent.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import task.homerent.dto.UserDto;
+import task.homerent.service.UserService;
 
-@Controller
+@RestController
 @RequestMapping("/auth")
 public class AuthController {
 
-    @GetMapping("/login")
-    public String getLoginPage() {
-        return "login";
-    }
+    @Autowired
+    private UserService userService;
 
-    @GetMapping("/success")
-    public String getSuccessPage() {
-        return "success";
+
+    @PostMapping("/login")
+    public String getLoginPage(@RequestBody UserDto userDto) {
+        userService.loginUser(userDto);
+        return "login";
     }
 }

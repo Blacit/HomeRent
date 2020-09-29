@@ -3,7 +3,6 @@ package task.homerent.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import task.homerent.model.Contract;
 import task.homerent.model.House;
 import task.homerent.model.Status;
 import task.homerent.repository.ContractRepository;
@@ -32,7 +31,7 @@ public class HouseRestController {
     // Вывести всю информацию по конкретной квартире
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('user:read')")
-    public House userPostInfo(@PathVariable(value = "id") Long id) {
+    public House houseInfoId(@PathVariable(value = "id") Long id) {
         Optional<House> house = houseRepository.findById(id);
         List<House> res = new ArrayList<>();
         house.ifPresent(res::add);
@@ -43,25 +42,58 @@ public class HouseRestController {
     }
 
     // Вывести всю информацию о всех квартирах
-    @GetMapping("/list")
+    @GetMapping()
     @PreAuthorize("hasAuthority('user:read')")
-    public Collection<House> userPostInfo() {
+    public Collection<House> houseInfoAll() {
         return houseRepository.findAll();
     }
 
     // Добавить квартиру
     @PostMapping
     @PreAuthorize("hasAuthority('landlord:write')")
-    public House create(@RequestBody House house) {
+    public House addHouse(@RequestBody House house) {
         Status status = Status.ACTIVE;
         house.setStatus(status);
         return houseRepository.save(house);
     }
 
-    // Арендовать квартиру
-    @PostMapping("/rent")
+     /**
+     * Почему нужно делать по start_date - мы там можем понять, что
+     * на тот промежуток, который хочешь арендовать - место может быть свободным.
+     * Вариант по проверки наличия арендатора не подходит, достаточно одного атрибута.
+     * */
+
+     // Арендовать квартиру
+    /**@PostMapping("/rent")
     @PreAuthorize("hasAuthority('user:write')")
     public Contract homeRent(@RequestBody Contract contract) {
+        Long num = contract.getUser().ge;
+        if (contract.getStart_date() == null) {
+
+        }
+        /**
+         * Владеет ли кто-то домом
+         * Проверка контракта, чтобы дом никто из других не забронировал
+         * Чтобы юзер не мог смотреть дом, который уже забронирован
+         * Смотреть дома, который ещё не сданы
+         * Написать тест на этот метод
+         * Транзакцию сделать (в виде таблицы)
+         * Таблица, в которую пишутся данные. Типа как логи. То, что дом арендовали, посмотрели
+         * По созданию контракта тесты и проверки
+         */
+     //   return contractRepository.save(contract);
+    //}
+
+    // Дома, которые ещё не сданы
+    /*@PostMapping("/rent/info")
+    @PreAuthorize("hasAuthority('user:write')")
+    public Contract homeInfoRent(@RequestBody Contract contract) {
+        Long num = contract.getUser().ge;
+        if (contract.getStart_date() == null) {
+
+        }
         return contractRepository.save(contract);
-    }
+    }*/
+
+
 }

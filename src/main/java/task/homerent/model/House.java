@@ -24,7 +24,7 @@ public class House {
     @OneToMany(mappedBy = "house")
     private Set<Contract> contract;
 
-    @Column(name = "id_landlord", nullable = false, unique = true)
+    @Column(name = "id_landlord", nullable = false)
     private Long id_landlord;
     @Column(name = "outside", nullable = false)
     private String outside;

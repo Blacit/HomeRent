@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -13,12 +14,17 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
     private final UserDetailsService userDetailsService;
 
@@ -32,21 +38,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                /** На какие страницы человек имеет доступы */
-                    .antMatchers("/").permitAll()
                     .antMatchers("/user/registration").permitAll()
+                    .antMatchers("/auth/login").permitAll()
                     .anyRequest().authenticated()
-                .and()
-                    .formLogin()
-                    .loginPage("/auth/login").permitAll()
-                    .defaultSuccessUrl("/auth/success")
-                .and()
-                    .logout()
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout", "POST"))
-                    .invalidateHttpSession(true)
-                    .clearAuthentication(true)
-                    .deleteCookies("JSESSIONID")
-                    .logoutSuccessUrl("/auth/login");
+                .and().sessionManagement().disable();
     }
 
     @Override

@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -17,7 +17,6 @@ public class Contract {
     @Column(name = "id")
     private Long id;
 
-    // ManyToMany к Дому
     @ManyToOne
     @JoinColumn(name = "id_house")
     @ToString.Exclude
@@ -25,7 +24,6 @@ public class Contract {
     @JsonIgnore
     private House house;
 
-    // ManyToMany к Пользователю
     @ManyToOne
     @JoinColumn(name = "id_tenant")
     @EqualsAndHashCode.Exclude
@@ -33,9 +31,8 @@ public class Contract {
     @JsonIgnore
     private User user;
 
-
     @Column(name = "end_date")
-    private Date endDate;
+    private LocalDate end_date;
     @Column(name = "start_date")
-    private Date id_house;
+    private LocalDate start_date;
 }

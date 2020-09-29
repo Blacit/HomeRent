@@ -20,16 +20,15 @@ public class CityRestController {
         this.cityRepository = cityRepository;
     }
 
-    // Выводим информацию о городах
     @GetMapping
     @PreAuthorize("hasAuthority('user:read')")
-    public List<City> listCity() {
+    public List<City> cityGet() {
         return cityRepository.findAll();
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('user:read')")
-    public Optional<City> cityInfo(@PathVariable(value = "id") Long id) {
+    public Optional<City> cityInfoId(@PathVariable(value = "id") Long id) {
         return cityRepository.findById(id);
     }
 }

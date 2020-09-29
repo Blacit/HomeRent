@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import task.homerent.model.*;
-import task.homerent.repository.ContractRepository;
 import task.homerent.repository.HouseRepository;
 import task.homerent.repository.UserRepository;
 
@@ -25,20 +24,23 @@ public class TenantRestController {
         this.userRepository = userRepository;
     }
 
-    // Присвоить пользователю TENANT и деактивировать квартиры, если были
+    // TENANT становится LANDLORD, если были квартиры, то активировать их
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('landlord:write')")
-    public void TenantPostAdd(@PathVariable(value = "id") Long id) {
+    @PreAuthorize("hasAuthority('user:write')")
+    public String tenantAdd(@PathVariable(value = "id") Long id) {
         User user = userRepository.findById(id).orElseThrow();
-        user.setRole(Role.TENANT);
-        House house = houseRepository.findById(id).orElseThrow();
-        house.setStatus(Status.INACTIVELY);
+        user.setRole(Role.LANDLORD);
+        Iterable<House> house = houseRepository.findById_landlord(id);
+        for (House a : house) {
+            a.setStatus(Status.ACTIVE);
+            userRepository.save(user);
+        }
+        return "Присвоена роль LANDLORD и активированы квартиры, если ранее были\n" + user;
     }
 
-    // Выводим весь список арендаторов
     @GetMapping
     @PreAuthorize("hasAuthority('user:read')")
-    public List<User> landlordGet() {
+    public List<User> tenantGet() {
         return userRepository.findByRole(Role.TENANT);
     }
 }
