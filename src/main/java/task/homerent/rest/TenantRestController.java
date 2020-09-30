@@ -24,7 +24,6 @@ public class TenantRestController {
         this.userRepository = userRepository;
     }
 
-    // TENANT становится LANDLORD, если были квартиры, то активировать их
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('user:write')")
     public String tenantAdd(@PathVariable(value = "id") Long id) {

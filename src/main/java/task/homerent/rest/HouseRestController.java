@@ -3,15 +3,14 @@ package task.homerent.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import task.homerent.model.Contract;
 import task.homerent.model.House;
 import task.homerent.model.Status;
 import task.homerent.repository.ContractRepository;
 import task.homerent.repository.HouseRepository;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.*;
 
 @RestController
 @RequestMapping("/house")
@@ -28,7 +27,6 @@ public class HouseRestController {
         this.contractRepository = contractRepository;
     }
 
-    // Вывести всю информацию по конкретной квартире
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('user:read')")
     public House houseInfoId(@PathVariable(value = "id") Long id) {
@@ -41,19 +39,16 @@ public class HouseRestController {
                 .orElse(null);
     }
 
-    // Вывести всю информацию о всех квартирах
     @GetMapping()
     @PreAuthorize("hasAuthority('user:read')")
     public Collection<House> houseInfoAll() {
         return houseRepository.findAll();
     }
 
-    // Добавить квартиру
     @PostMapping
     @PreAuthorize("hasAuthority('landlord:write')")
     public House addHouse(@RequestBody House house) {
-        Status status = Status.ACTIVE;
-        house.setStatus(status);
+        house.setStatus(Status.ACTIVE);
         return houseRepository.save(house);
     }
 
@@ -62,27 +57,30 @@ public class HouseRestController {
      * на тот промежуток, который хочешь арендовать - место может быть свободным.
      * Вариант по проверки наличия арендатора не подходит, достаточно одного атрибута.
      * */
+    // Ищем Contract
+    // Арендовать квартиру
 
-     // Арендовать квартиру
-    /**@PostMapping("/rent")
+    @PostMapping("/rent")
     @PreAuthorize("hasAuthority('user:write')")
-    public Contract homeRent(@RequestBody Contract contract) {
-        Long num = contract.getUser().ge;
-        if (contract.getStart_date() == null) {
+    public void homeRent(@RequestBody Contract contract) {
+        System.out.println("ID арендатора");
+        System.out.println(contract.getUser().getId());
+        System.out.println("Начало аренды");
+        int dates = Integer.valueOf(String.valueOf(contract.getStart_date()));
+        //LocalDate date = new LocalDate(dates); //- высвечивается ошибка LocalDate(int, int, int) has private access in 'java.time.LocalDate'`
+        //System.out.println(date);
+    }
 
-        }
-        /**
-         * Владеет ли кто-то домом
-         * Проверка контракта, чтобы дом никто из других не забронировал
-         * Чтобы юзер не мог смотреть дом, который уже забронирован
-         * Смотреть дома, который ещё не сданы
-         * Написать тест на этот метод
-         * Транзакцию сделать (в виде таблицы)
-         * Таблица, в которую пишутся данные. Типа как логи. То, что дом арендовали, посмотрели
-         * По созданию контракта тесты и проверки
-         */
-     //   return contractRepository.save(contract);
-    //}
+    /**
+     * Владеет ли кто-то домом
+     * Проверка контракта, чтобы дом никто из других не забронировал
+     * Чтобы юзер не мог смотреть дом, который уже забронирован
+     * Смотреть дома, который ещё не сданы
+     * Написать тест на этот метод
+     * Транзакцию сделать (в виде таблицы)
+     * Таблица, в которую пишутся данные. Типа как логи. То, что дом арендовали, посмотрели
+     * По созданию контракта тесты и проверки
+     */
 
     // Дома, которые ещё не сданы
     /*@PostMapping("/rent/info")
