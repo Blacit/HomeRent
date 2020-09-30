@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  JMC почитать
  Как правильно назвать папку Controller, там ведь регистрация и авторизация + rest
  petclinic
+ обработчик ошибок
  */
 @SpringBootApplication
 public class Application {

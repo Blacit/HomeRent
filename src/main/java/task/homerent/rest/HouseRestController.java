@@ -71,11 +71,36 @@ public class HouseRestController {
     @PreAuthorize("hasAuthority('user:write')")
     public void homeRent(@RequestBody ContractDto contractDto) {
         Contract contract = new Contract();
-        Optional<House> house = houseRepository.findById(contractDto.getId_house());
-        Optional<User> user = userRepository.findById(contractDto.getId_tenant());
+        House house = houseRepository.findById(contractDto.getId_house()).orElseThrow();
+        Set<Contract> temp = house.getContract();
+        for(Contract s:temp) {
+            System.out.println(s.getStart_date());
+            if(s.getStart_date().equals("")) {
+                System.out.println("null");
+            }
+        }
 
-        contract
+        //System.out.println(house);
+//        if (house == null) {
+//
+//        }
+        User user = userRepository.findById(contractDto.getId_tenant()).orElseThrow();
+        //System.out.println(user);
+        contract.setHouse(house);
+        contract.setUser(user);
+        contract.setStart_date(contractDto.getStart_date());
+        contract.setEnd_date(contractDto.getEnd_date());
 
+        contract.getHouse().getId();
+        contractDto.getStart_date();
+
+        //if(houseRepository.findById(contractDto.getId_house()).orElseThrow() == null)
+
+
+        /**
+         * Ищем квартиру
+         * Если в этой квартире есть арендаторы, то не можем её взять
+         */
 
         contractRepository.save(contract);
     }
