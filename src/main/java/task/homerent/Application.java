@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  Сделать сервис, который будет обращаться к моему. С очередями поработать, JMC, KAFKA и подобное.
  JMC почитать
  Как правильно назвать папку Controller, там ведь регистрация и авторизация + rest
+ petclinic
  */
 @SpringBootApplication
 public class Application {

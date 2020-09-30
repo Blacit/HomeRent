@@ -3,11 +3,14 @@ package task.homerent.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import task.homerent.dto.ContractDto;
 import task.homerent.model.Contract;
 import task.homerent.model.House;
 import task.homerent.model.Status;
+import task.homerent.model.User;
 import task.homerent.repository.ContractRepository;
 import task.homerent.repository.HouseRepository;
+import task.homerent.repository.UserRepository;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -22,9 +25,13 @@ public class HouseRestController {
     @Autowired
     private ContractRepository contractRepository;
 
-    public HouseRestController(HouseRepository houseRepository, ContractRepository contractRepository) {
+    @Autowired
+    private UserRepository userRepository;
+
+    public HouseRestController(HouseRepository houseRepository, ContractRepository contractRepository, UserRepository userRepository) {
         this.houseRepository = houseRepository;
         this.contractRepository = contractRepository;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/{id}")
@@ -62,13 +69,15 @@ public class HouseRestController {
 
     @PostMapping("/rent")
     @PreAuthorize("hasAuthority('user:write')")
-    public void homeRent(@RequestBody Contract contract) {
-        System.out.println("ID арендатора");
-        System.out.println(contract.getUser().getId());
-        System.out.println("Начало аренды");
-        int dates = Integer.valueOf(String.valueOf(contract.getStart_date()));
-        //LocalDate date = new LocalDate(dates); //- высвечивается ошибка LocalDate(int, int, int) has private access in 'java.time.LocalDate'`
-        //System.out.println(date);
+    public void homeRent(@RequestBody ContractDto contractDto) {
+        Contract contract = new Contract();
+        Optional<House> house = houseRepository.findById(contractDto.getId_house());
+        Optional<User> user = userRepository.findById(contractDto.getId_tenant());
+
+        contract
+
+
+        contractRepository.save(contract);
     }
 
     /**
