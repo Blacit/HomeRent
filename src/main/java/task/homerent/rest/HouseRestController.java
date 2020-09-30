@@ -59,14 +59,6 @@ public class HouseRestController {
         return houseRepository.save(house);
     }
 
-     /**
-     * Почему нужно делать по start_date - мы там можем понять, что
-     * на тот промежуток, который хочешь арендовать - место может быть свободным.
-     * Вариант по проверки наличия арендатора не подходит, достаточно одного атрибута.
-     * */
-    // Ищем Contract
-    // Арендовать квартиру
-
     @PostMapping("/rent")
     @PreAuthorize("hasAuthority('user:write')")
     public void homeRent(@RequestBody ContractDto contractDto) {
@@ -79,31 +71,26 @@ public class HouseRestController {
                 System.out.println("null");
             }
         }
-
-        //System.out.println(house);
-//        if (house == null) {
-//
-//        }
-        User user = userRepository.findById(contractDto.getId_tenant()).orElseThrow();
-        //System.out.println(user);
-        contract.setHouse(house);
-        contract.setUser(user);
-        contract.setStart_date(contractDto.getStart_date());
-        contract.setEnd_date(contractDto.getEnd_date());
-
-        contract.getHouse().getId();
-        contractDto.getStart_date();
-
-        //if(houseRepository.findById(contractDto.getId_house()).orElseThrow() == null)
-
-
-        /**
-         * Ищем квартиру
-         * Если в этой квартире есть арендаторы, то не можем её взять
-         */
-
-        contractRepository.save(contract);
     }
+
+    // TRASH
+
+//    User user = userRepository.findById(contractDto.getId_tenant()).orElseThrow();
+//    //System.out.println(user);
+//        contract.setHouse(house);
+//        contract.setUser(user);
+//        contract.setStart_date(contractDto.getStart_date());
+//        contract.setEnd_date(contractDto.getEnd_date());
+//
+//        contract.getHouse().getId();
+//        contractDto.getStart_date();
+//
+//        contractRepository.save(contract);
+
+    /**
+     * Ищем квартиру
+     * Если в этой квартире есть арендаторы, то не можем её взять
+     */
 
     /**
      * Владеет ли кто-то домом
