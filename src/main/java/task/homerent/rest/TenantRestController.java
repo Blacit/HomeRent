@@ -5,6 +5,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import task.homerent.model.*;
 import task.homerent.repository.HouseRepository;
+import task.homerent.repository.LogRepository;
 import task.homerent.repository.UserRepository;
 
 import java.util.List;
@@ -19,9 +20,13 @@ public class TenantRestController {
     @Autowired
     private UserRepository userRepository;
 
-    public TenantRestController(HouseRepository houseRepository, UserRepository userRepository) {
+    @Autowired
+    private LogRepository logRepository;
+
+    public TenantRestController(HouseRepository houseRepository, UserRepository userRepository, LogRepository logRepository) {
         this.houseRepository = houseRepository;
         this.userRepository = userRepository;
+        this.logRepository = logRepository;
     }
 
     @PutMapping("/{id}")
@@ -34,6 +39,11 @@ public class TenantRestController {
             a.setStatus(Status.ACTIVE);
             userRepository.save(user);
         }
+
+        Log log = new Log();
+        log.setWho(String.valueOf(userRepository.findById(id).orElseThrow()));
+        log.setEvent("update tenant");
+        logRepository.save(log);
         return "Присвоена роль LANDLORD и активированы квартиры, если ранее были подключены\n" + user;
     }
 

@@ -3,11 +3,9 @@ package task.homerent.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import task.homerent.model.House;
-import task.homerent.model.Role;
-import task.homerent.model.Status;
-import task.homerent.model.User;
+import task.homerent.model.*;
 import task.homerent.repository.HouseRepository;
+import task.homerent.repository.LogRepository;
 import task.homerent.repository.UserRepository;
 
 import java.util.List;
@@ -22,9 +20,13 @@ public class LandlordRestController {
     @Autowired
     private HouseRepository houseRepository;
 
-    public LandlordRestController(UserRepository userRepository, HouseRepository houseRepository) {
+    @Autowired
+    private LogRepository logRepository;
+
+    public LandlordRestController(UserRepository userRepository, HouseRepository houseRepository, LogRepository logRepository) {
         this.userRepository = userRepository;
         this.houseRepository = houseRepository;
+        this.logRepository = logRepository;
     }
 
     @PutMapping("/{id}")
@@ -37,6 +39,11 @@ public class LandlordRestController {
             a.setStatus(Status.INACTIVELY);
             userRepository.save(user);
         }
+
+        Log log = new Log();
+        log.setWho(String.valueOf(userRepository.findById(id).orElseThrow()));
+        log.setEvent("update landlord");
+        logRepository.save(log);
         return "присвоена роль TENANT и деактивированы квартиры, если были подключены\n" + user;
     }
 
