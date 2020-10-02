@@ -6,7 +6,7 @@ import task.homerent.model.House;
 import task.homerent.repository.HouseRepository;
 
 import java.util.Collection;
-import java.util.Optional;
+import java.util.List;
 
 @Service
 public class HouseService {
@@ -18,8 +18,8 @@ public class HouseService {
         this.houseRepository = houseRepository;
     }
 
-    public Optional<House> findById(Long id){
-        return houseRepository.findById(id);
+    public House findById(Long id){
+        return houseRepository.findById(id).orElseThrow();
     }
 
     public void delete(House house) {
@@ -36,5 +36,9 @@ public class HouseService {
 
     public House save(House house) {
         return houseRepository.save(house);
+    }
+
+    public List<House> findfreehouse() {
+        return houseRepository.findfreehouse();
     }
 }

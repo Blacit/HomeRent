@@ -29,7 +29,7 @@ public class CityRestController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('user:read')")
-    public Optional<City> cityInfoId(@PathVariable(value = "id") Long id) {
+    public City cityInfoId(@PathVariable(value = "id") Long id) {
         return cityService.findById(id);
     }
 }

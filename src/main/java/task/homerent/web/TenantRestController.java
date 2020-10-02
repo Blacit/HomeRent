@@ -28,7 +28,7 @@ public class TenantRestController {
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('user:write')")
     public String tenantAdd(@PathVariable(value = "id") Long id) {
-        User user = userService.findById(id).orElseThrow();
+        User user = userService.findById(id);
         user.setRole(Role.LANDLORD);
         Iterable<House> house = houseService.findById_landlord(id);
         for (House a : house) {
@@ -37,7 +37,7 @@ public class TenantRestController {
         }
 
         Log log = new Log();
-        log.setWho(String.valueOf(userService.findById(id).orElseThrow()));
+        log.setWho(String.valueOf(userService.findById(id)));
         log.setEvent("update tenant");
         logService.save(log);
         return "Присвоена роль LANDLORD и активированы квартиры, если ранее были подключены\n" + user;

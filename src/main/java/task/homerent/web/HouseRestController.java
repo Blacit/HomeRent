@@ -7,9 +7,6 @@ import task.homerent.dto.ContractDto;
 import task.homerent.model.Contract;
 import task.homerent.model.House;
 import task.homerent.model.Status;
-import task.homerent.repository.ContractRepository;
-import task.homerent.repository.HouseRepository;
-import task.homerent.repository.UserRepository;
 import task.homerent.service.ContractService;
 import task.homerent.service.HouseService;
 import task.homerent.service.UserService;
@@ -34,7 +31,7 @@ public class HouseRestController {
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('user:read')")
     public House houseInfoId(@PathVariable(value = "id") Long id) {
-        Optional<House> house = houseService.findById(id);
+        Optional<House> house = Optional.ofNullable(houseService.findById(id));
         List<House> res = new ArrayList<>();
         house.ifPresent(res::add);
 
@@ -45,8 +42,8 @@ public class HouseRestController {
 
     @GetMapping()
     @PreAuthorize("hasAuthority('user:read')")
-    public Collection<House> houseInfoAll() {
-        return houseService.findAll();
+    public Collection<House> houseFree() {
+        return houseService.findfreehouse();
     }
 
     @PostMapping
@@ -56,12 +53,19 @@ public class HouseRestController {
         return houseService.save(house);
     }
 
-    @PostMapping("/rent") // не работает
+    @PostMapping("/rent")
     @PreAuthorize("hasAuthority('user:write')")
-    public void homeRent(@RequestBody ContractDto contractDto) {
+    public String homeRent(@RequestBody ContractDto contractDto) {
         List<Contract> con = contractService.findContractByHouseIdAndEndDateAfter(contractDto.getHouseId(), contractDto.getEndDate());
-        for(Contract co : con) {
-            System.out.println(co);
+        if(con.isEmpty()) {
+            Contract contract = new Contract();
+            contract.setHouse(houseService.findById(contractDto.getHouseId()));
+            contract.setUser(userService.findById(contractDto.getTenantId()));
+            contract.setStartDate(contractDto.getStartDate());
+            contract.setEndDate(contractDto.getEndDate());
+            contractService.save(contract);
+            return "Квартира забронирована";
         }
+        return "Квартира занята";
     }
 }

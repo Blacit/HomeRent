@@ -11,6 +11,7 @@ import task.homerent.service.HouseService;
 import task.homerent.service.LogService;
 import task.homerent.service.UserService;
 
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -33,11 +34,11 @@ public class AdminRestController {
     @PreAuthorize("hasAuthority('admin:write')")
     public String deleteHouseById(@PathVariable Long id) {
         Log log = new Log();
-        log.setWho(String.valueOf(houseService.findById(id).orElseThrow()));
+        log.setWho(String.valueOf(houseService.findById(id)));
         log.setEvent("apartment removed");
         logService.save(log);
 
-        House house = houseService.findById(id).orElseThrow();
+        House house = houseService.findById(id);
         houseService.delete(house);
         return "Квартира удалена " + house;
     }
@@ -46,11 +47,11 @@ public class AdminRestController {
     @PreAuthorize("hasAuthority('admin:write')")
     public String deleteUserById(@PathVariable Long id) {
         Log log = new Log();
-        log.setWho(String.valueOf(userService.findById(id).orElseThrow()));
+        log.setWho(String.valueOf(userService.findById(id)));
         log.setEvent("user removed");
         logService.save(log);
 
-        User user = userService.findById(id).orElseThrow();
+        User user = userService.findById(id);
         Iterable<House> house = houseService.findById_landlord(id);
         for (House a : house) {
             houseService.delete(a);
@@ -63,11 +64,11 @@ public class AdminRestController {
     @PreAuthorize("hasAuthority('admin:write')")
     public String bannedUserById(@PathVariable Long id) {
         Log log = new Log();
-        log.setWho(String.valueOf(userService.findById(id).orElseThrow()));
+        log.setWho(String.valueOf(userService.findById(id)));
         log.setEvent("user banned");
         logService.save(log);
 
-        User user = userService.findById(id).orElseThrow();
+        User user = userService.findById(id);
         user.setStatus(Status.BANNED);
         Iterable<House> house = houseService.findById_landlord(id);
         for (House a : house) {
@@ -78,8 +79,14 @@ public class AdminRestController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('user:read')")
+    @PreAuthorize("hasAuthority('admin:read')")
     public List<User> userAllGet() {
         return userService.findAll();
+    }
+
+    @GetMapping("/house/all")
+    @PreAuthorize("hasAuthority('admin:read')")
+    public Collection<House> houseInfoAll() {
+        return houseService.findAll();
     }
 }

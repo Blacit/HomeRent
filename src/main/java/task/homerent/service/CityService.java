@@ -6,7 +6,6 @@ import task.homerent.model.City;
 import task.homerent.repository.CityRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CityService {
@@ -18,8 +17,8 @@ public class CityService {
         this.cityRepository = cityRepository;
     }
 
-    public Optional<City> findById(Long id){
-        return cityRepository.findById(id);
+    public City findById(Long id){
+        return cityRepository.findById(id).orElseThrow();
     }
 
     public List<City> findAll() {
