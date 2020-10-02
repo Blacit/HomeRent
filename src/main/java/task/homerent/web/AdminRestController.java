@@ -1,4 +1,4 @@
-package task.homerent.rest;
+package task.homerent.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -7,9 +7,9 @@ import task.homerent.model.House;
 import task.homerent.model.Log;
 import task.homerent.model.Status;
 import task.homerent.model.User;
-import task.homerent.repository.HouseRepository;
-import task.homerent.repository.LogRepository;
-import task.homerent.repository.UserRepository;
+import task.homerent.service.HouseService;
+import task.homerent.service.LogService;
+import task.homerent.service.UserService;
 
 import java.util.List;
 
@@ -17,31 +17,28 @@ import java.util.List;
 @RequestMapping("/admin")
 public class AdminRestController {
 
-    @Autowired
-    private HouseRepository houseRepository;
+    private final HouseService houseService;
+    private final UserService userService;
+    private final LogService logService;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private LogRepository logRepository;
-
-    public AdminRestController(HouseRepository houseRepository, UserRepository userRepository, LogRepository logRepository) {
-        this.houseRepository = houseRepository;
-        this.userRepository = userRepository;
-        this.logRepository = logRepository;
+    public AdminRestController(HouseService houseService, UserService userService, LogService logService) {
+        this.houseService = houseService;
+        this.userService = userService;
+        this.logService = logService;
     }
+
 
     @DeleteMapping("/house/{id}")
     @PreAuthorize("hasAuthority('admin:write')")
     public String deleteHouseById(@PathVariable Long id) {
         Log log = new Log();
-        log.setWho(String.valueOf(houseRepository.findById(id).orElseThrow()));
+        log.setWho(String.valueOf(houseService.findById(id).orElseThrow()));
         log.setEvent("apartment removed");
-        logRepository.save(log);
+        logService.save(log);
 
-        House house = houseRepository.findById(id).orElseThrow();
-        houseRepository.delete(house);
+        House house = houseService.findById(id).orElseThrow();
+        houseService.delete(house);
         return "Квартира удалена " + house;
     }
 
@@ -49,16 +46,16 @@ public class AdminRestController {
     @PreAuthorize("hasAuthority('admin:write')")
     public String deleteUserById(@PathVariable Long id) {
         Log log = new Log();
-        log.setWho(String.valueOf(userRepository.findById(id).orElseThrow()));
+        log.setWho(String.valueOf(userService.findById(id).orElseThrow()));
         log.setEvent("user removed");
-        logRepository.save(log);
+        logService.save(log);
 
-        User user = userRepository.findById(id).orElseThrow();
-        Iterable<House> house = houseRepository.findById_landlord(id);
+        User user = userService.findById(id).orElseThrow();
+        Iterable<House> house = houseService.findById_landlord(id);
         for (House a : house) {
-            houseRepository.delete(a);
+            houseService.delete(a);
         }
-        userRepository.delete(user);
+        userService.delete(user);
         return "Пользователь удалён: " + user;
     }
 
@@ -66,16 +63,16 @@ public class AdminRestController {
     @PreAuthorize("hasAuthority('admin:write')")
     public String bannedUserById(@PathVariable Long id) {
         Log log = new Log();
-        log.setWho(String.valueOf(userRepository.findById(id).orElseThrow()));
+        log.setWho(String.valueOf(userService.findById(id).orElseThrow()));
         log.setEvent("user banned");
-        logRepository.save(log);
+        logService.save(log);
 
-        User user = userRepository.findById(id).orElseThrow();
+        User user = userService.findById(id).orElseThrow();
         user.setStatus(Status.BANNED);
-        Iterable<House> house = houseRepository.findById_landlord(id);
+        Iterable<House> house = houseService.findById_landlord(id);
         for (House a : house) {
             a.setStatus(Status.INACTIVELY);
-            userRepository.save(user);
+            userService.save(user);
         }
         return "Пользователь заблокирован: " + user;
     }
@@ -83,6 +80,6 @@ public class AdminRestController {
     @GetMapping
     @PreAuthorize("hasAuthority('user:read')")
     public List<User> userAllGet() {
-        return userRepository.findAll();
+        return userService.findAll();
     }
 }

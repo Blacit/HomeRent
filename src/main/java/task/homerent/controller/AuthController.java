@@ -5,31 +5,31 @@ import org.springframework.web.bind.annotation.*;
 import task.homerent.dto.UserDto;
 import task.homerent.model.Log;
 import task.homerent.repository.LogRepository;
+import task.homerent.service.LogService;
 import task.homerent.service.UserService;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    private final LogService logService;
 
     @Autowired
-    private LogRepository logRepository;
-
-    public AuthController(UserService userService, LogRepository logRepository) {
+    public AuthController(UserService userService, LogService logService) {
         this.userService = userService;
-        this.logRepository = logRepository;
+        this.logService = logService;
     }
 
     @PostMapping("/login")
     public String getLoginPage(@RequestBody UserDto userDto) {
+        userService.loginUser(userDto);
+
         Log log = new Log();
         log.setWho(userDto.getEmail());
         log.setEvent("log in");
-        logRepository.save(log);
-
-        userService.loginUser(userDto);
+        logService.save(log);
         return "login";
     }
 }

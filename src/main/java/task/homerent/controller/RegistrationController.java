@@ -7,39 +7,36 @@ import task.homerent.dto.UserDto;
 import task.homerent.model.Log;
 import task.homerent.repository.LogRepository;
 import task.homerent.repository.UserRepository;
+import task.homerent.service.LogService;
 import task.homerent.service.UserService;
 
 @RestController
 @RequestMapping
 public class RegistrationController {
 
-    @Autowired
+
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private UserService userService;
 
-    @Autowired
-    private LogRepository logRepository;
+    private LogService logService;
 
-    public RegistrationController(PasswordEncoder passwordEncoder, UserRepository userRepository, UserService userService, LogRepository logRepository) {
+    @Autowired
+    public RegistrationController(PasswordEncoder passwordEncoder, UserService userService, LogService logService) {
         this.passwordEncoder = passwordEncoder;
-        this.userRepository = userRepository;
         this.userService = userService;
-        this.logRepository = logRepository;
+        this.logService = logService;
     }
 
     @ResponseBody
     @PostMapping("/user/registration")
     public UserDto registerNewUserAccount(@RequestBody UserDto accountDto) {
+        userService.addUser(accountDto);
+
         Log log = new Log();
         log.setWho(accountDto.getEmail());
         log.setEvent("registered");
-        logRepository.save(log);
-        userService.addUser(accountDto);
+        logService.save(log);
         return accountDto;
     }
 }

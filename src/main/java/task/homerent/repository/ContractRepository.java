@@ -5,8 +5,9 @@ import org.springframework.stereotype.Repository;
 import task.homerent.model.Contract;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Repository
 public interface ContractRepository extends JpaRepository<Contract, Long> {
-    findContractByHouseIdAndEnd_dateAfter(String houseId LocalDate from);
+    List<Contract> findContractByHouseIdAndEndDateAfter(Long houseId, LocalDate from);
 }

@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface HouseRepository extends JpaRepository<House, Long> {
-    @Query(value = "select * from house where id_landlord = :id_landlord ", nativeQuery = true)
-    List<House> findById_landlord(@Param("id_landlord")Long id_landlord);
+    @Query(value = "select * from house where landlord_id = :landlord_id ", nativeQuery = true)
+    List<House> findById_landlord(@Param("landlord_id")Long landlordId);
 }

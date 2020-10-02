@@ -1,4 +1,4 @@
-package task.homerent.rest;
+package task.homerent.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -7,6 +7,9 @@ import task.homerent.model.*;
 import task.homerent.repository.HouseRepository;
 import task.homerent.repository.LogRepository;
 import task.homerent.repository.UserRepository;
+import task.homerent.service.HouseService;
+import task.homerent.service.LogService;
+import task.homerent.service.UserService;
 
 import java.util.List;
 
@@ -14,42 +17,38 @@ import java.util.List;
 @RequestMapping("/landlord")
 public class LandlordRestController {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserService userService;
+    private final HouseService houseService;
+    private final LogService logService;
 
     @Autowired
-    private HouseRepository houseRepository;
-
-    @Autowired
-    private LogRepository logRepository;
-
-    public LandlordRestController(UserRepository userRepository, HouseRepository houseRepository, LogRepository logRepository) {
-        this.userRepository = userRepository;
-        this.houseRepository = houseRepository;
-        this.logRepository = logRepository;
+    public LandlordRestController(UserService userService, HouseService houseService, LogService logService) {
+        this.userService = userService;
+        this.houseService = houseService;
+        this.logService = logService;
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('landlord:write')")
     public String landlordUpdate(@PathVariable(value = "id") Long id) {
-        User user = userRepository.findById(id).orElseThrow();
+        User user = userService.findById(id).orElseThrow();
         user.setRole(Role.TENANT);
-        Iterable<House> house = houseRepository.findById_landlord(id);
+        Iterable<House> house = houseService.findById_landlord(id);
         for (House a : house) {
             a.setStatus(Status.INACTIVELY);
-            userRepository.save(user);
+            userService.save(user);
         }
 
         Log log = new Log();
-        log.setWho(String.valueOf(userRepository.findById(id).orElseThrow()));
+        log.setWho(String.valueOf(userService.findById(id).orElseThrow()));
         log.setEvent("update landlord");
-        logRepository.save(log);
+        logService.save(log);
         return "присвоена роль TENANT и деактивированы квартиры, если были подключены\n" + user;
     }
 
     @GetMapping
     @PreAuthorize("hasAuthority('user:read')")
     public List<User> landlordGet() {
-        return userRepository.findByRole(Role.LANDLORD);
+        return userService.findByRole(Role.LANDLORD);
     }
 }

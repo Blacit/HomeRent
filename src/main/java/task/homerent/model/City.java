@@ -28,8 +28,8 @@ public class City {
     @JsonIgnore
     private Set<House> house;
 
-    @Column(name = "id_region", nullable = false)
-    private Integer id_region;
+    @Column(name = "region_id", nullable = false)
+    private Integer regionId;
     @Column(name = "name", nullable = false)
     private String name;
 }

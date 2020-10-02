@@ -18,21 +18,21 @@ public class Contract {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_house")
+    @JoinColumn(name = "house_id")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore
     private House house;
 
     @ManyToOne
-    @JoinColumn(name = "id_tenant")
+    @JoinColumn(name = "tenant_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
     private User user;
 
-    @Column(name = "end_date")
-    private LocalDate end_date;
-    @Column(name = "start_date")
-    private LocalDate start_date;
+    @Column(name = "end_Date")
+    private LocalDate endDate;
+    @Column(name = "start_Date")
+    private LocalDate startDate;
 }

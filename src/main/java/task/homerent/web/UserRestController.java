@@ -1,4 +1,4 @@
-package task.homerent.rest;
+package task.homerent.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,10 +13,9 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserRestController {
 
+    private final UserRepository userRepository;
 
     @Autowired
-    private UserRepository userRepository;
-
     public UserRestController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }

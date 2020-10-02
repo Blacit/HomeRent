@@ -14,6 +14,9 @@ import task.homerent.model.Status;
 import task.homerent.model.User;
 import task.homerent.repository.UserRepository;
 
+import java.util.List;
+import java.util.Optional;
+
 
 @Service
 public class UserService {
@@ -65,5 +68,25 @@ public class UserService {
 
         userRepository.save(user);
         return user;
+    }
+
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
+    }
+
+    public void delete(User user) {
+        userRepository.delete(user);
+    }
+
+    public void save(User user) {
+        userRepository.save(user);
+    }
+
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    public List<User> findByRole(Role landlord) {
+        return userRepository.findByRole(landlord);
     }
 }
