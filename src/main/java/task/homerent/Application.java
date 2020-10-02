@@ -13,7 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  JMC почитать
  petclinic
  обработчик ошибок
- Использовать liquebase
+ Использовать liquibase
 
  Сделал:
  1. Скрипты для БД, заполненные таблицы
