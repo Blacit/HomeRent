@@ -12,7 +12,7 @@
                  relativeToChangelogFile="true"
                  splitStatements="true"
                  stripComments="true"
-                 path="10-update-contract-table.sql"/>
+                 path="30-update-contract-table.sql"/>
         <rollback>
             <sqlFile dbms="postgresql"
                      encoding="utf8"
@@ -20,7 +20,7 @@
                      relativeToChangelogFile="true"
                      splitStatements="true"
                      stripComments="true"
-                     path="10-drop-contract-table.sql"/>
+                     path="30-drop-contract-table.sql"/>
         </rollback>
     </changeSet>
 

@@ -7,8 +7,9 @@ import task.homerent.model.Contract;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ContractRepository extends JpaRepository<Contract, Long> {
-    List<Contract> findContractByHouseIdAndEndDateAfter(Long houseId, LocalDate from);
+    Optional<Contract> findContractByHouseIdAndEndDateAfter(Long houseId, LocalDate from);
 }

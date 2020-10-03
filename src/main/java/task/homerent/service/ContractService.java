@@ -6,7 +6,7 @@ import task.homerent.model.Contract;
 import task.homerent.repository.ContractRepository;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ContractService {
@@ -22,7 +22,7 @@ public class ContractService {
         return contractRepository.findById(id).orElseThrow();
     }
 
-    public List<Contract> findContractByHouseIdAndEndDateAfter(Long house_id, LocalDate end_Date) {
+    public Optional<Contract> findContractByHouseIdAndEndDateAfter(Long house_id, LocalDate end_Date) {
         return contractRepository.findContractByHouseIdAndEndDateAfter(house_id, end_Date);
     }
 

@@ -6,8 +6,8 @@
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
     <include file="01-changeset-update-users.xml" relativeToChangelogFile="true"/>
-    <include file="10-changeset-update-contract.xml" relativeToChangelogFile="true"/>
+    <include file="10-changeset-update-city.xml" relativeToChangelogFile="true"/>
     <include file="20-changeset-update-house.xml" relativeToChangelogFile="true"/>
-    <include file="30-changeset-update-city.xml" relativeToChangelogFile="true"/>
+    <include file="30-changeset-update-contract.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
