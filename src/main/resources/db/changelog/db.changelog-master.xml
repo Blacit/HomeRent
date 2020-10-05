@@ -9,7 +9,7 @@
         <dbms type="postgresql"/>
     </preConditions>
 
-    <changeSet id="0" author="vladislav_gil">
+    <changeSet id="1" author="vladislav_gil">
         <tagDatabase tag="db_init"/>
     </changeSet>
 
@@ -21,7 +21,7 @@
 
     <include file="v-2.0/db.changelog-v.2.0.xml" relativeToChangelogFile="true"/>
 
-    <changeSet id="8" author="vladislav_gil">
+    <changeSet id="12" author="vladislav_gil">
         <tagDatabase tag="v.2.0"/>
     </changeSet>
 
