@@ -55,9 +55,9 @@ public class HouseRestController {
 
     @PostMapping("/rent")
     @PreAuthorize("hasAuthority('user:write')")
-    public String homeRent(@RequestBody ContractDto contractDto) {
-        Optional<Contract> con = contractService.findContractByHouseIdAndEndDateAfter(contractDto.getHouseId(), contractDto.getEndDate());
-        if(!con.isPresent()) {
+    public String findAllByDate(@RequestBody ContractDto contractDto) {
+        List<Contract> con = contractService.findAllByDate(contractDto.getHouseId(), contractDto.getStartDate(), contractDto.getEndDate());
+        if (con.size() == 0) {
             Contract contract = new Contract();
             contract.setHouse(houseService.findById(contractDto.getHouseId()));
             contract.setUser(userService.findById(contractDto.getTenantId()));

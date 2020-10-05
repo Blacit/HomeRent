@@ -1,11 +1,13 @@
 package task.homerent.service;
 
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import task.homerent.model.Contract;
 import task.homerent.repository.ContractRepository;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,8 +24,8 @@ public class ContractService {
         return contractRepository.findById(id).orElseThrow();
     }
 
-    public Optional<Contract> findContractByHouseIdAndEndDateAfter(Long house_id, LocalDate end_Date) {
-        return contractRepository.findContractByHouseIdAndEndDateAfter(house_id, end_Date);
+    public List<Contract> findAllByDate(Long house_id, LocalDate endDate, LocalDate startDate) {
+        return contractRepository.findAllByDate(house_id, endDate, startDate);
     }
 
     public void save(Contract con) {
