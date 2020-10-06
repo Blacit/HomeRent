@@ -42,7 +42,7 @@ public class HouseRestController {
 
     @GetMapping()
     @PreAuthorize("hasAuthority('user:read')")
-    public Collection<House> houseFree() {
+    public List<House> houseFree() {
         return houseService.findfreehouse();
     }
 

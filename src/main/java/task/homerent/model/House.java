@@ -37,4 +37,15 @@ public class House {
     @Enumerated(value = EnumType.STRING)
     @Column(name = "status")
     private Status status;
+
+    public House(Long landlordId, String outside, Integer rooms, Double price, String description) {
+        this.landlordId = landlordId;
+        this.outside = outside;
+        this.rooms = rooms;
+        this.price = price;
+        this.description = description;
+    }
+
+    public House() {
+    }
 }
