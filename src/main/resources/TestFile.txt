@@ -1,0 +1,28 @@
+Регистрация
+{
+    "email" : "fedya@mail.ru",
+    "first_name" : "Федя",
+    "last_name" : "Федянов",
+    "password": "феля"
+}
+Авторизация
+{
+    "email" : "igor@mail.ru",
+    "password":"igor"
+}
+Квартира
+{
+    "description" : "Вид на кремль",
+    "id_landlord" : 1,
+    "outside" : "Ул. Шахтёра",
+    "price": 20000,
+    "rooms": 1,
+    "city_id":2
+}
+Аренда
+{
+    "startDate" : "2020-03-12",
+    "endDate" : "2020-03-19",
+    "houseId" : 6,
+    "tenantId" : 6
+}

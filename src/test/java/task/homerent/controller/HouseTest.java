@@ -10,6 +10,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -26,7 +27,6 @@ import task.homerent.web.HouseRestController;
 import java.time.LocalDate;
 import java.util.List;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class HouseTest {
 
@@ -58,6 +58,7 @@ public class HouseTest {
     }
 
     @Test
+    @WithMockUser(authorities = {"user:write"})
     void ContractHouse() {
         LocalDate endDate = LocalDate.of(2020, 10, 31);
         LocalDate startDate = LocalDate.of(2020, 10, 20);
@@ -72,6 +73,7 @@ public class HouseTest {
     }
 
     @Test
+    @WithMockUser(authorities = {"user:read"})
     void ListHouse() {
         List<House> freeHouse = houseService.findfreehouse();
         assertThat(freeHouse).isNotNull();
