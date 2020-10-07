@@ -1,6 +1,7 @@
 package task.homerent.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.bind.annotation.*;
 import task.homerent.dto.UserDto;
 import task.homerent.model.Log;

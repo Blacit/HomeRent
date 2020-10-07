@@ -4,11 +4,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 import task.homerent.dto.ContractDto;
 import task.homerent.dto.UserDto;
@@ -23,7 +26,7 @@ import task.homerent.web.HouseRestController;
 import java.time.LocalDate;
 import java.util.List;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class HouseTest {
 
@@ -43,6 +46,9 @@ public class HouseTest {
     @MockBean
     private AuthController authController;
 
+    @MockBean
+    private ContractDto contractDto;
+
     @BeforeEach
     public void AuthLogin() throws Exception {
         UserDto userDto = new UserDto();
@@ -58,8 +64,8 @@ public class HouseTest {
         ContractDto contractDto = new ContractDto();
         contractDto.setEndDate(endDate);
         contractDto.setStartDate(startDate);
-        contractDto.setHouseId((long)5);
-        contractDto.setTenantId((long)5);
+        contractDto.setHouseId((long) 5);
+        contractDto.setTenantId((long) 5);
         String freeHouse = houseRestController.findAllByDate(contractDto);
         assertThat(freeHouse).isNotNull();
         assertThat(freeHouse).isEqualTo("Квартира занята");
